@@ -48,7 +48,8 @@
     x.addEventListener("mouseover", myFunction);
     x.addEventListener("click", mySecondFunction);
     x.addEventListener("mouseout", myThirdFunction);
-    x.addEventListener("mouseover", myFourthFunction);
+    x.addEventListener("mouseover", myFourthFunction);    
+    x.addEventListener("mouseout", myFifthFunction);
     
     
     function myFunction(){
@@ -64,7 +65,10 @@
     }
     
     function myFourthFunction() {
-        HTMLButtonElement.
+        document.getElementById("myBtn3").style.background='green';
+    }
+    function myFifthFunction() {
+        document.getElementById("myBtn3").style.background='';
     }
     
     
