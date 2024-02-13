@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <title>geo455_lab3</title>
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-
+        xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-
+        XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: "whitesmoke";
+                font-family: "Noto Sans", sans-serif;
+                color: #3d3d3d;
+            }
+            #title {
+                position: center;
+                text-align: center;
+                margin-top: 10px;
+                top: 10px;
+                left: 50px;
+                font-size: 2em;
+                font-family: "Lora", serif;
+                letter-spacing: .04em;
+                padding: 10px 15px;
+                background-color: rgba(255, 255, 255, 0.5);
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 800;
+            }
+            #description h2 {
+                font-family: "Lora", serif;
+                letter-spacing: .04em;
+            }
+            #map {
+                position: absolute;
+                top: 75px;
+                left: 315px;
+                bottom: -70px;
+                width: 100%;
+            }
+            #description {
+                position:left;
+                bottom: 10px;
+                left: 10px;
+                width: 280px;
+                padding: 0px 15px;
+                background-color: rgba(255, 255, 255, 0.7);
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 800;
+            }
+            #description p {
+                font-size: .9em;
+                line-height: 1.5em;
+            }
+            #description a {
+                color: #005daa;
+                text-decoration: none;
+            }
+            #description a:hover {
+                text-decoration: underline;
+            }
+            #footer{ 
+                position:bottom;
+                text-align: center;
+                margin-top: 10px;
+                top: 10px;
+                margin-left: 310px;
+                font-size: 2em;
+                font-family: "Lora", serif;
+                letter-spacing: .04em;
+                padding: 10px 15px;
+                background-color: rgba(255, 255, 255, 0.5);
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 800;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <h1 id="title">Lab 3</h1>
+        
+        <div id="map"></div>
+        
+        <div id="description">
+            <h2>About this assignment</h2>
+            <ol>
+                <li>Prague</li>
+                <li>Smoky Mountains Nat'l Park</li>
+                <li>Amsterdam</li>
+                <li>Glacier Nat'l Park</li>
+                <li>Sequoia Nat'l Park </li>
+                <li>Dublin </li>
+                <li>Osaka </li>
+                <li>Cairngorms Nat'l Park </li>
+                <li>Maldives </li>
+                <li>Rome </li>
+                <li>Acadia Nat'l Park </li>
+            </ol>
+            <img src="images/matterhorn_zermatt.jpg" width=250 height=175 position=center>
+            
+           <p>Map authored by Travis Key</p>
+        </div>
+        
+        <h3 id="footer"> Footer </h3>
+        
+        
+        <script src="map_lab3.js"></script>
+        
+    </body>
+</html>
