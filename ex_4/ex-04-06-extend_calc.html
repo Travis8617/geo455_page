@@ -9,6 +9,7 @@
         
         <input type="button" id="multiply" value="Multiply!">
         <input type="button" id="divide" value="Divide!">
+        <input type="button" id="exponent" value="Exponents!">
         <input type="button" id="clear" value="Clear History!">
         <!-- add more math functions --->
         <p id="result"></p>
@@ -19,15 +20,19 @@
             var result = document.getElementById("result");
             
             document.getElementById("multiply").addEventListener("click", function() {
-                result.innerHTML +="<p>" + num1.value + " * " + num2.value + 
+                result.innerHTML += "<p>" + num1.value + " * " + num2.value + 
                     " = " + num1.value * num2.value + "</p>";});
             
             document.getElementById("divide").addEventListener("click", function() {
-                result.innerHTML +="<p>" + num1.value + " / " + num2.value + 
+                result.innerHTML += "<p>" + num1.value + " / " + num2.value + 
                     " = " + num1.value / num2.value + "</p>";});
             
+            document.getElementById("exponent").addEventListener("click", function() {
+                result.innerHTML += "<p>" + num1.value + "^" + num2.value + 
+                    " = " + Math.pow(num1.value , num2.value) + "</p>";});
+            
             document.getElementById("clear").addEventListener("click", function() {
-                result.remove();});
+                result.innerHTML = "";});
             
         </script>
     </body>
