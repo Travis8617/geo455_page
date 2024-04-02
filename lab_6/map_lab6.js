@@ -22,9 +22,27 @@ function getColor(value) {
                          '#f2f0f7';
 }
 
+function getColor2(value) {
+    return value > 139 ? '#cb181d':
+           value > 87  ? '#fb6a4a':
+           value > 53  ? '#fcae91':
+           value > 38  ? '#fee5d9':
+                         '#f2f0f7';
+}
+
 function style(feature){
     return {
         fillColor: getColor(feature.properties.pop_den),   
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.9
+    };
+}
+
+function style2(feature){
+    return {
+        fillColor: getColor2(feature.properties.pop_den),   
         weight: 2,
         opacity: 1,
         color: 'gray',
@@ -52,10 +70,12 @@ function highlightFeature(e) {
     }
 }
 
-var geojson; // define a variable to make the geojson layer accessible for the function to use   
-            
+//var geojson; // define a variable to make the geojson layer accessible for the function to use   
+
+
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
+    geojson_original.resetStyle(e.target);
 }
 
 function onEachFeature(feature, layer) {
@@ -65,7 +85,8 @@ function onEachFeature(feature, layer) {
     });
 }
 
-geojson = L.geoJson(data, {
+
+var geojson = L.geoJson(data, {
     style:style,
     onEachFeature: onEachFeature
 }).bindPopup(function (layer){
@@ -73,14 +94,38 @@ geojson = L.geoJson(data, {
            + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
 }).addTo(mymap);
 
+
+var geojson_original = L.geoJson(data_Original, {
+    style:style2,
+    onEachFeature: onEachFeature
+}).bindPopup(function (layer){
+    return layer.feature.properties.NAME 
+           + '<p style="color:red">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+}).addTo(mymap);
+
+
+
+//Layer control
+
+var baseLayers = {
+    'Non-English Speaking Households':geojson,
+    "Population Density": geojson_original};
+
+var layerControl = L.control.layers(baseLayers, {}, {collapsed: false}).addTo(mymap);
+
+
+
 var legend = L.control({position: 'bottomright'}); // Try the other three corners if you like.
+var legend2 = L.control({position: 'bottomright'});
+
+
 
 legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'legend'),
         grades = [1, 2, 4, 6, 13]; // The break values to define the intervals of population, note we begin from 0 here
 
-    div.innerHTML = '<b>Density per square unit area</b>'; // The legend title (HTML-based)
+    div.innerHTML = '<b>Density per square unit area<br>of non-english speakers<br></b>'; // The legend title (HTML-based)
 
     // Loop through our the classes and generate a label with a color box for each interval.
     // If you are creating a choropleth map, you DO NOT need to change lines below.
@@ -91,6 +136,27 @@ legend.onAdd = function (map) {
     }
 
     return div;
+
 };
 
+
+legend2.onAdd = function (map) {
+
+    var div1 = L.DomUtil.create('div', 'legend'),
+        grades2 = [38, 53, 87, 139]; // The break values to define the intervals of population, note we begin from 0 here
+
+    div1.innerHTML = '<b>Density per square unit area<br></b>'; // The legend title (HTML-based)
+
+    // Loop through our the classes and generate a label with a color box for each interval.
+    // If you are creating a choropleth map, you DO NOT need to change lines below.
+    for (var i = 0; i < grades2.length; i++) {
+        div1.innerHTML +=
+        '<i style="background:' + getColor2(grades2[i] + 1) + '"></i>' +
+        grades2[i] + (grades2[i + 1] ? '&ndash;' + grades2[i + 1] + '<br>' : '+');
+    }
+
+    return div1;
+};
+
+legend2.addTo(mymap);
 legend.addTo(mymap);
