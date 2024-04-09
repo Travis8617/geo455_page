@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearest Point</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Load Leaflet from CDN -->
+       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+       
+    <!-- Load TurfJS from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    <!-- Load JTS Topology -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsts/2.11.0/jsts.min.js" integrity="sha512-k03HLJwh4bxiY8IRgDfhd6b20Cse4SJb6EWasnRSTHlP2fr/1m5stzF2bQnwvsSgX74FnfDj9Bva6OXg/gojtQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+        #description {
+                position: fixed;
+                bottom: 20px;
+                left: 10px;
+                width: 280px;
+                padding: 0px 15px;
+                background-color: rgba(255, 255, 255, 0.7);
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 800;
+            }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="description"> <p>Area:  </p>  </div>
+    
+    <script>
+        document.getElementById("description").innerHTML = "<p>Area: " + area + "</p>";
+        // Bounds   long/lat  - feel free to change
+        var bounds = [-91.24767126466358, 43.82383654812337, -91.20748926566223, 43.80826537588756];
+
+        // Initialize map
+        var mymap = L.map("map").fitBounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]]);
+
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", 
+            {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}
+        ).addTo(mymap);
+
+                // explore the turfjs website.. find an example and demonstrate with your own data/story
+        
+        var pnt_layer = L.layerGroup().addTo(mymap);
+        var tin_layer = L.layerGroup().addTo(mymap);
+        var area;
+
+        // Calculate random points as a starting point
+        var points = turf.randomPoint(4, {bbox: bounds});
+        
+        
+        L.geoJSON(points, {
+            onEachFeature: function(feature, layer) { 
+                layer.addEventListener("drag", drawPoly); // with each point feature an element is added which when triggered will run the function drawTIN 
+            },
+            pointToLayer: function(geoJsonPoint, latlng) {
+                return L.marker(latlng, {draggable: true})
+            }
+        
+        }).addTo(pnt_layer);
+        
+        
+        function drawPoly () {
+            tin_layer.clearLayers(); 
+            points = pnt_layer.toGeoJSON();
+            tin = turf.convex(points);
+            tin = L.geoJSON(tin);
+            tin.addTo(tin_layer);
+        };
+        drawPoly();
+         //new
+        
+        //var area = getArea(tin_layer);
+            
+            
+        //document.getElementById("description").innerHTML = "<p>Area: " + area + "</p>";
+        
+        
+        
+        
+        //var area = turf.area(tin_layer);
+        //var String = String(area);
+        
+
+        //document.getElementById("description").innertext = "Area: " + "areavar";
+      
+        
+
+        
+    </script>
+</body>
+</html>
