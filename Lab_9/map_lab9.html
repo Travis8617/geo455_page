@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 9</title>
+    <link rel="stylesheet" href="./lib/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <style>
+    html,body{
+        margin: 0;
+        padding: 0;
+    }
+    #map{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+    #event{
+        position: absolute;
+        top: 75px;
+        left: 50px;
+        height: 100px;
+        width: 400px;
+        z-index: 10000;
+    }
+    .btn{
+        border-color:gray;
+        border-width: 2px;
+        background-color:white;
+   }
+        #title {
+                position: fixed;
+                margin-top: 0;
+                top: 10px;
+                left: 50px;
+                font-size: 2em;
+                font-family: "EB Garamond", serif;
+                letter-spacing: .04em;
+                padding: 10px 15px;
+                background-color: rgba(255, 255, 255, 0.5);
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 800;
+            }
+        #description {
+                position: fixed;
+                bottom: 20px;
+                left: 10px;
+                width: 280px;
+                padding: 0px 15px;
+                background-color: rgba(255, 255, 255, 0.7);
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 800;
+            }
+        input[type = button] {
+            background-color: #04AA6D;
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            margin: 3px 1px;
+            cursor: pointer;
+        }
+        input[type = button]:hover {
+            background-color: gray;
+            border: none;
+            color: white;
+            padding: 14px 29px;
+            text-decoration: none;
+            margin: 3px 1px;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <h1 id="title">Lab 9: Commute Flow Map to Dane County (2011-2015)</h1>
+    <h3 id="description">This map is visualizing commuter flows from various counties into Dane County.
+            <br><br>Map Credit: Travis Key</h3>
+    
+    
+    
+    
+    <div id="map"></div>
+    <div id='event'>
+        <input type="button" value="hide" class="btn" onclick="hide()">
+        <input type="button" value="show" class="btn" onclick="show()">
+        <input type="button" value="pause" class="btn" onclick="pause()">
+        <input type="button" value="play" class="btn" onclick="play()">
+    </div>
+    
+    <script src="https://lycheelin.github.io/leaflet.migrationLayer/lib/leaflet.js"></script>
+    <script src='https://lycheelin.github.io/leaflet.migrationLayer/src/src.js'></script>
+    <script src="geoJSON.js"></script>
+    
+    <script>
+        var mymap = L.map('map').setView([43, -89], 8);
+        
+        
+        
+        var grayscale = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+        attribution: 'Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.',
+        maxZoom: 18,
+        minZoom: 2
+        }).addTo(mymap);
+        
+        
+        
+        
+        var data = [
+{"from":[-87.81686987847783, 41.84012399844568],"to":[-89.418123, 43.06729],"labels":['Cook county', 'dane county'],"color":"#a1d99b","value":407},
+{"from":[-88.00356529928209, 42.3232404371298],"to":[-89.418123, 43.06729],"labels":['Lake county', 'dane county'],"color":"#a1d99b","value":103},
+{"from":[-89.16086987720979, 42.336262242894584],"to":[-89.418123, 43.06729],"labels":['Winnebago county', 'dane county'],"color":"#a1d99b","value":492},
+{"from":[-89.77039901111084, 43.96954008534026],"to":[-89.418123, 43.06729],"labels":['Adams county', 'dane county'],"color":"#a1d99b","value":260},
+{"from":[-89.33373640319394, 43.46660807515458],"to":[-89.418123, 43.06729],"labels":['Columbia county', 'dane county'],"color":"#006d2c","value":10219},
+{"from":[-88.70750683279452, 43.416295018484874],"to":[-89.418123, 43.06729],"labels":['Dodge county', 'dane county'],"color":"#74c476","value":2340},
+{"from":[-88.48826324976726, 43.75358945940402],"to":[-89.418123, 43.06729],"labels":['Fond du Lac county', 'dane county'],"color":"#a1d99b","value":269},
+{"from":[-90.70622059654794, 42.867481933318196],"to":[-89.418123, 43.06729],"labels":['Grant county', 'dane county'],"color":"#a1d99b","value":408},
+{"from":[-89.60222178967973, 42.68000893387771],"to":[-89.418123, 43.06729],"labels":['Green county', 'dane county'],"color":"#31a354","value":5452},
+{"from":[-89.04485972244939, 43.800378961637115],"to":[-89.418123, 43.06729],"labels":['Green Lake county', 'dane county'],"color":"#a1d99b","value":111},
+{"from":[-90.13538397325428, 43.00047442936014],"to":[-89.418123, 43.06729],"labels":['Iowa county', 'dane county'],"color":"#74c476","value":3253},
+{"from":[-88.77586581702715, 43.02081427257082],"to":[-89.418123, 43.06729],"labels":['Jefferson county', 'dane county'],"color":"#31a354","value":5623},
+{"from":[-90.11379197530667, 43.92460445359454],"to":[-89.418123, 43.06729],"labels":['Juneau county', 'dane county'],"color":"#a1d99b","value":159},
+{"from":[-90.13172222438115, 42.66049941193692],"to":[-89.418123, 43.06729],"labels":['Lafayette county', 'dane county'],"color":"#a1d99b","value":520},
+{"from":[-89.39874914466688, 43.819581774260975],"to":[-89.418123, 43.06729],"labels":['Marquette county', 'dane county'],"color":"#a1d99b","value":542},
+{"from":[-87.96676370013014, 43.007130868484744],"to":[-89.418123, 43.06729],"labels":['Milwaukee county', 'dane county'],"color":"#a1d99b","value":878},
+{"from":[-88.46493222476084, 44.416091878817674],"to":[-89.418123, 43.06729],"labels":['Outagamie county', 'dane county'],"color":"#a1d99b","value":233},
+{"from":[-87.9508181871426, 43.38403604859775],"to":[-89.418123, 43.06729],"labels":['Ozaukee county', 'dane county'],"color":"#a1d99b","value":139},
+{"from":[-90.42948340732649, 43.37564062269346],"to":[-89.418123, 43.06729],"labels":['Richland county', 'dane county'],"color":"#a1d99b","value":463},
+{"from":[-89.0715662816089, 42.67122464853314],"to":[-89.418123, 43.06729],"labels":['Rock county', 'dane county'],"color":"#006d2c","value":9427},
+{"from":[-89.94821671631824, 43.42666336288931],"to":[-89.418123, 43.06729],"labels":['Sauk county', 'dane county'],"color":"#31a354","value":4377},
+{"from":[-88.54190363849497, 42.66848680253071],"to":[-89.418123, 43.06729],"labels":['Walworth county', 'dane county'],"color":"#a1d99b","value":686},
+{"from":[-88.2307627580914, 43.36847996915],"to":[-89.418123, 43.06729],"labels":['Washington county', 'dane county'],"color":"#a1d99b","value":358},
+{"from":[-88.30450835912751, 43.01821448372674],"to":[-89.418123, 43.06729],"labels":['Waukesha county', 'dane county'],"color":"#74c476","value":1506},
+{"from":[-88.64465865860242, 44.068876840681845],"to":[-89.418123, 43.06729],"labels":['Winnebago county', 'dane county'],"color":"#a1d99b","value":165},
+{"from":[-90.04154917255359, 44.45533129687375],"to":[-89.418123, 43.06729],"labels":['Wood county', 'dane county'],"color":"#a1d99b","value":118}];
+        
+        var geojson = L.geoJson(data2).addTo(mymap);
+        
+
+        data = data.map(item => { return {...item, value: parseInt(Math.random()*20)}});
+        
+
+        var migrationLayer = new L.migrationLayer({
+            map: mymap,
+            data: data,
+            pulseRadius:30,
+            pulseBorderWidth:3,
+            arcWidth:1,
+            arcLabel:true,
+            arcLabelFont:'10px sans-serif',
+            maxWidth:10
+            }
+        );
+        migrationLayer.addTo(mymap);
+
+        
+        function hide(){
+            migrationLayer.hide();
+        }
+        function show(){
+            migrationLayer.show();
+        }
+        function play(){
+            migrationLayer.play();
+        }
+        function pause(){
+            migrationLayer.pause();
+        }
+        
+    </script>
+</body>
+
+</html>
