@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Great Circle Line Map</title>
+  <style>
+    html, body, #map {
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        margin: 0;
+    }
+    #title {
+        position: fixed;
+        margin-top: 0;
+        top: 15px;
+        left: 55px;
+        font-size: 2em;
+        font-family: "EB Garamond", serif;
+        letter-spacing: .04em;
+        padding: 10px 15px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 1px solid grey;
+        border-radius: 3px;
+        z-index: 800;
+    }
+    #description {
+        position: fixed;
+        bottom: 20px;
+        left: 10px;
+        width: 280px;
+        padding: 0px 15px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border: 1px solid grey;
+        border-radius: 3px;
+        z-index: 800;
+    }
+  </style>
+  <!-- Load Leaflet from CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="title">Lab 10: Great Circle Distance</div>
+  <div id="description"><h3>About this assignment:<br></h3>This map uses TurfJS to show the great circle distance and mid-point between two points. The points can be dragged to any new location. Give it a try!<br><p> </p></div>
+  <script>
+    // Function to initialize the map
+    function initMap() {
+      // Define initial coordinates for markers
+      var marker1Coords = [48, -122]; // New York City
+      var marker2Coords = [39, -77]; // Paris
+
+      // Initialize the map
+      var bounds = [-130, 20, -60, 50];
+
+      // Initialize map
+      var map = L.map("map").fitBounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]]);
+
+      // Add basemap from OpenStreetMap
+      L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", 
+            {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}
+        ).addTo(map);
+
+      // Add markers to the map
+      var marker1 = L.marker(marker1Coords, { draggable: true }).addTo(map);
+      var marker2 = L.marker(marker2Coords, { draggable: true }).addTo(map);
+
+      // Initialize Great Circle line
+      var greatCircleLine = L.polyline([], { color: 'blue' }).addTo(map);
+
+      // Initialize midpoint marker
+      var midpointMarker = L.marker([], { draggable: false, icon: L.divIcon({className: 'midpoint-marker'})}).addTo(map);
+
+      // Function to update Great Circle line
+      function updateGreatCircleLine() {
+        var startPoint = marker1.getLatLng();
+        var endPoint = marker2.getLatLng();
+        var greatCircle = turf.greatCircle(turf.point([startPoint.lng, startPoint.lat]), turf.point([endPoint.lng, endPoint.lat]));
+        var greatCircleCoords = greatCircle.geometry.coordinates.map(coord => [coord[1], coord[0]]);
+        greatCircleLine.setLatLngs(greatCircleCoords);
+        
+        // Update midpoint marker
+        updateMidpointMarker();
+      }
+
+      // Function to update midpoint marker
+      function updateMidpointMarker() {
+        var startPoint = marker1.getLatLng();
+        var endPoint = marker2.getLatLng();
+        var midpoint = turf.midpoint(turf.point([startPoint.lng, startPoint.lat]), turf.point([endPoint.lng, endPoint.lat]));
+        midpointMarker.setLatLng([midpoint.geometry.coordinates[1], midpoint.geometry.coordinates[0]]);
+      }
+
+      // Update Great Circle line when markers are dragged
+      marker1.on('drag', updateGreatCircleLine);
+      marker2.on('drag', updateGreatCircleLine);
+
+      // Initial update of Great Circle line
+      updateGreatCircleLine();
+    }
+
+    // Call initMap function when the page is loaded
+    window.onload = initMap;
+  </script>
+</body>
+</html>
