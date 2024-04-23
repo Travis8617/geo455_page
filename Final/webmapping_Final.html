@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <title>Travis' Final</title>
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+        <script src="data.js"></script>
+        <script src="data_Original.js"></script>
+        <script src="acersacc_JSON.js"></script>
+        <script src="acerrubr_JSON.js"></script>
+        
+        <script src="cornflor_JSON.js"></script>
+        <script src="pinucont_JSON.js"></script>
+        <script src="pinutaed_JSON.js"></script>
+        <script src="pseumenz_JSON.js"></script>
+        <script src="abiebals_JSON.js"></script>
+        <script src="poputrem_JSON.js"></script>
+        <script src="liqustyr_JSON.js"></script>
+        <script src="queralba_JSON.js"></script>
+        
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: "whitesmoke";
+                font-family: "Noto Sans", sans-serif;
+                color: #3d3d3d;
+            }
+            
+            #title {
+                position: fixed;
+                margin-top: 0;
+                top: 10px;
+                left: 50px;
+                font-size: 2em;
+                font-family: "Lora", serif;
+                letter-spacing: .04em;
+                padding: 10px 15px;
+                background-color: rgba(255, 255, 255, 0.5);
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 800;
+            }
+            
+            #description h2 {
+                font-family: "Lora", serif;
+                letter-spacing: .04em;}
+            
+            #map {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    width: 100%;
+                }
+            
+            .custom .leaflet-popup-tip,
+            .custom .leaflet-popup--conent-wrapper {
+                background: #000000;
+                color: #ffffff;
+            }
+            
+             .legend {
+                 padding: 6px 8px;
+                 line-height: 18px;
+                 background: rgba(255,255,255,0.9);
+                 box-shadow: 0 0 15px rgba(0,0,0,0.2);
+                 border-radius: 5px;
+            }
+            
+           .legend i {
+               width: 18px;
+               height: 18px;
+               float: left;
+               margin-right: 8px;
+               opacity: 0.7;
+            }
+            
+            #description p {
+                font-size: .9em;
+                line-height: 1.5em;
+            }
+            
+            #description a {
+                color: #005daa;
+                text-decoration: none;
+            }
+            
+            #description a:hover {
+                text-decoration: underline;
+            }
+            
+            #leftmenu {
+                position:left;
+                bottom: 10px;
+                left: 10px;
+                width: 280px;
+                padding: 0px 15px;
+                background-color: rgba(255, 255, 255, 0.7);
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 800;
+            }
+            
+        </style>
+        
+    </head>
+        <!-- <body bgcolor="#EDDD9E">
+       <h1 align="center">Lab 4</h1>
+       
+     </body> -->
+    
+    <body>
+        <h1 id="title">Native Tree Ranges in North America</h1>
+        <div id="map"></div>
+
+        <div id="leftmenu">
+        
+        </div>
+        
+        <script src="final_proj.js"></script>
+        
+    </body>
+    
+</html>
