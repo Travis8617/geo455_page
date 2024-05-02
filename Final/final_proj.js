@@ -15,6 +15,7 @@ var json = L.geoJSON(json, {pointToLayer: function(feature, latlng){var markerss
                                                                        
                                                                        return json;
                                                                        }});
+var Cluster = L.markerClusterGroup();
 
 
  $.get (api_url2, function(csvString) {
@@ -24,7 +25,6 @@ var json = L.geoJSON(json, {pointToLayer: function(feature, latlng){var markerss
      
     // Create marker cluster group
     
-    var Cluster = L.markerClusterGroup();
      
     // For each row in data, create a marker and add it to the map
     // For each row, columns `Latitude`, `Longitude`, and `Title` are required
@@ -43,7 +43,7 @@ var json = L.geoJSON(json, {pointToLayer: function(feature, latlng){var markerss
     }
      
      
-     //json.addTo(mymap);
+     json.addTo(mymap);
      Cluster.addTo(mymap);
      
      
@@ -61,17 +61,11 @@ var json = L.geoJSON(json, {pointToLayer: function(feature, latlng){var markerss
 
 
 
-var satellite = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2NoYXVkaHVyaSIsImEiOiJjazBtcG5odG8wMDltM2JtcjdnYTgyanBnIn0.qwqjMomdrBMG36GQKXBlMw', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    id: 'mapbox/satellite-v9',
-    tileSize: 512,
-    zoomOffset: -1,
-    minZoom: 2,
-    maxZoom: 19
+var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 }).addTo(mymap);
 
-var grayscale = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2NoYXVkaHVyaSIsImEiOiJjazBtcG5odG8wMDltM2JtcjdnYTgyanBnIn0.qwqjMomdrBMG36GQKXBlMw', {
+var grayscale2 = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2NoYXVkaHVyaSIsImEiOiJjazBtcG5odG8wMDltM2JtcjdnYTgyanBnIn0.qwqjMomdrBMG36GQKXBlMw', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -89,6 +83,15 @@ var streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{
     minZoom: 2,
     maxZoom: 19
 }).addTo(mymap);
+
+var grayscale = L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
+	attribution: '<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	minZoom: 0,
+	maxZoom: 22,
+	accessToken: 'ZBttPnOvSwPGVLa9GeEapIrLw911i48HPuNS99NTMCJTTd3oaCjDXMUCp1n6ylMP'
+});
+
+
 
 grayscale.addTo(mymap);
 
@@ -349,8 +352,8 @@ var basemaps = {
 
 var layerControl = L.control.layers({}, overlays, {collapsed: false}).addTo(mymap);
 
-     var firetoggle = {"Wildfires": json};
- var fireLayerControl = L.control.layers({}, firetoggle, {collapsed: false}).addTo(mymap);
+var firetoggle = {"Wildfire Points": json, "Wildfire Clustesr": Cluster};
+ var fireLayerControl = L.control.layers(firetoggle, {}, {collapsed: false}).addTo(mymap);
 
 var baselayerControl = L.control.layers(basemaps, {}, {collapsed: false}).addTo(mymap);
 
