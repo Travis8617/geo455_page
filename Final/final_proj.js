@@ -43,7 +43,7 @@ var Cluster = L.markerClusterGroup();
     }
      
      
-     json.addTo(mymap);
+     //json.addTo(mymap);
      Cluster.addTo(mymap);
      
      
