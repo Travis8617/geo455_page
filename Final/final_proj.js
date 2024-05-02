@@ -352,7 +352,7 @@ var basemaps = {
 
 var layerControl = L.control.layers({}, overlays, {collapsed: false}).addTo(mymap);
 
-var firetoggle = {"Wildfire Points": json, "Wildfire Clustesr": Cluster, "Off": };
+var firetoggle = {"Wildfire Points": json, "Wildfire Clustesr": Cluster};
  var fireLayerControl = L.control.layers(firetoggle, {}, {collapsed: false}).addTo(mymap);
 
 var baselayerControl = L.control.layers(basemaps, {}, {collapsed: false}).addTo(mymap);
