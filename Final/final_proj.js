@@ -3,6 +3,74 @@ var mymap = L.map("map", {
     zoom: 5
     });
 
+
+
+
+
+
+var api_url2 = 'https://firms.modaps.eosdis.nasa.gov/api/country/csv/872e426ef9f441d2fa52c1ad4c89ff80/MODIS_NRT/USA/2';
+
+
+var json = L.geoJSON(json, {pointToLayer: function(feature, latlng){var markerss = L.marker(latlng, {icon: myIcon});
+                                                                       
+                                                                       return json;
+                                                                       }});
+
+
+ $.get (api_url2, function(csvString) {
+
+    // Use PapaParse to convert string to array of objects
+    var data = Papa.parse(csvString, {header: true, dynamicTyping: true}).data;
+     
+    // Create marker cluster group
+    
+    var Cluster = L.markerClusterGroup();
+     
+    // For each row in data, create a marker and add it to the map
+    // For each row, columns `Latitude`, `Longitude`, and `Title` are required
+    for (var i in data) {
+      var row = data[i];
+
+      var marker = L.marker([row.latitude, row.longitude], {icon: myIcon}, {
+        opacity: 1
+      }).bindPopup("Latitude: " + row.latitude + ", Longitude: " + row.longitude);
+      
+      
+        
+        
+      json.addLayer(marker);
+      Cluster.addLayer(marker);
+    }
+     
+     
+     //json.addTo(mymap);
+     Cluster.addTo(mymap);
+     
+     
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+var satellite = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2NoYXVkaHVyaSIsImEiOiJjazBtcG5odG8wMDltM2JtcjdnYTgyanBnIn0.qwqjMomdrBMG36GQKXBlMw', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    id: 'mapbox/satellite-v9',
+    tileSize: 512,
+    zoomOffset: -1,
+    minZoom: 2,
+    maxZoom: 19
+}).addTo(mymap);
+
 var grayscale = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2NoYXVkaHVyaSIsImEiOiJjazBtcG5odG8wMDltM2JtcjdnYTgyanBnIn0.qwqjMomdrBMG36GQKXBlMw', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
@@ -12,26 +80,128 @@ var grayscale = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}
     zoomOffset: -1
 });
 
+var streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2NoYXVkaHVyaSIsImEiOiJjazBtcG5odG8wMDltM2JtcjdnYTgyanBnIn0.qwqjMomdrBMG36GQKXBlMw', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    minZoom: 2,
+    maxZoom: 19
+}).addTo(mymap);
+
 grayscale.addTo(mymap);
 
-function getColor(value) {
-    return value > 13 ? '#54278f':
-           value > 6  ? '#756bb1':
-           value > 4  ? '#9e9ac8':
-           value > 2  ? '#cbc9e2':
-                         '#f2f0f7';
-}
 
 
-function style(feature){
+function style1(feature){
     return {
-        fillColor: getColor(feature.properties.pop_den),   
+        fillColor: '#b3490a',   
         weight: 2,
         opacity: 1,
         color: 'gray',
-        fillOpacity: 0.9
+        fillOpacity: 0.75
     };
 }
+
+function style2(feature){
+    return {
+        fillColor: '#a17544',   
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.75
+    };
+}
+
+function style3(feature){
+    return {
+        fillColor: '#7ea8b4',   
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.75
+    };
+}
+
+function style4(feature){
+    return {
+        fillColor: '#91c07d',   
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.75
+    };
+}
+
+function style5(feature){
+    return {
+        fillColor: '#6b5440',   
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.75
+    };
+}
+
+function style6(feature){
+    return {
+        fillColor: '#dfdfdf',   
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.75
+    };
+}
+
+function style7(feature){
+    return {
+        fillColor: '#d5b740',   
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.75
+    };
+}
+
+function style8(feature){
+    return {
+        fillColor: '#8e3645',   
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.75
+    };
+}
+
+function style9(feature){
+    return {
+        fillColor: '#5e4640',   
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.75
+    };
+}
+
+function style10(feature){
+    return {
+        fillColor: '#845a4b',   
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.75
+    };
+}
+
+//Fire symbol for firepoints
+var myIcon = L.icon({
+    iconUrl: 'images/fire.png',
+    iconSize: [30, 30],
+    
+})
+
+
 
 function highlightFeature(e) {
     // Get access to the feature that was hovered through e.target
@@ -80,84 +250,79 @@ function onEachFeature(feature, layer) {
 
 
 var range1 = L.geoJson(acersacc, {
-    style:'green',
-    onEachFeature: onEachFeature
+    style:style1,
 }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:red">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+    return '<p>Silver Maple is very similar to the Red Maple tree except that its leaves turn yellow or brown, not red, in the fall. Sometimes the trunks of silver maples are hollow, allowing for animals and birds to live inside of them. It can grow in a USDA Hardiness Zone 3-9. A mature Silver Maple can grow to 50-80 feet high and prefers moist, well drained soils.</p>' + '<a href = "https://en.wikipedia.org/wiki/Acer_saccharinum">Wikipedia</a>' + '<br>' + '<img src="images/Silver-maple.png" width="200" height="auto" align="center" >';    
 });
 
 var range2 = L.geoJson(acerrubr, {
-    style:style,
-    onEachFeature: onEachFeature
+    style:style2,
 }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+    return '<p>Red maples can tolerate a variety of soils, helping it have a wide range. It can grow in a USDA Hardiness Zones 3-9. This shade tree can grow to 40-60 feet high and 40 feet wide when mature. It has a fast growth rate and prefers full sun. It is the state tree of Rhode Island.</p>' + '<a href = "https://en.wikipedia.org/wiki/Acer_rubrum">Wikipedia</a>' + '<br>' + '<img src="images/Sugar-maple.png" width="200" height="auto" align="center" >';       
 });
 
 var range3 = L.geoJson(cornflor, {
-    style:style,
-    onEachFeature: onEachFeature
+    style:style3,
 }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+    return '<p>Flowering dogwood grows glossy red berries that attract birds. It blooms in April and May and does well in acidic, well-drained soil. Flowering dogwood thrives in USDA Hardiness Zones 5-9. It reaches a maximum height of 25 feet and spread of 25 feet at maturity. It is the state tree of Missouri and Virginia, while it is the state flower of North Carolina.</p>' + '<a href = "https://en.wikipedia.org/wiki/Cornus_florida">Wikipedia</a>' + '<br>' + '<img src="images/flowering-dogwood-tree.png" width="200" height="auto" align="center" >';      
 });
 
 var range4 = L.geoJson(pinucont, {
-    style:style,
-    onEachFeature: onEachFeature
+    style:style4,
 }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+    return '<p>lodgepole pine does best in full sun to light shade and adapts to a variety of soils. It begins to bear cones early on from six to 10 years of age. This evergreen grows in USDA Hardiness Zones 4-8. It has a mature height of 70-80 feet and a spread of 20 feet. It has a slow to medium growth rate. </p>' + '<a href = "https://en.wikipedia.org/wiki/Pinus_contorta">Wikipedia</a>' + '<br>' + '<img src="images/lodgepolepine.png" width="200" height="auto" align="center" >';      
 });
 
 var range5 = L.geoJson(pseumenz, {
-    style:style,
-    onEachFeature: onEachFeature
+    style:style5,
 }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+    return '<p>Douglas-fir is written as one word or hyphenated to indicate that it is not a true fir. It is the state tree of Oregon. It is also a popular Christmas tree choice due to its nice shape. It has a USDA Hardiness Zones of 4-6. It can grow to 40-70 feet high and 12-20 feet wide at maturity. It prefers acidic or neutral soils and does not do well in dry, poor soils.</p>' + '<a href = "https://en.wikipedia.org/wiki/Douglas_fir">Wikipedia</a>' + '<br>' + '<img src="images/douglasfir.png" width="200" height="auto" align="center" >';     
 });
 
 var range6 = L.geoJson(pinutaed, {
-    style:style,
-    onEachFeature: onEachFeature
+    style:style6,
 }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+    return '<p>Also known as bull pine or old-field pine, this is one of the fastest growing southern pines and is native to the east coast of North America ranging from New Jersey to Florida to Texas. This pine has a USDA Hardiness Zones of 6-9 and can grow in a variety of soils. It grows 60-90 feet high and 25-35 feet wide at maturity. It is the state tree of Arkansas.</p>' + '<a href = "https://en.wikipedia.org/wiki/Pinus_taeda">Wikipedia</a>' + '<br>' + '<img src="images/loblollypine.png" width="200" height="auto" align="center" >';       
 });
 
 var range7 = L.geoJson(abiebals, {
-    style:style,
-    onEachFeature: onEachFeature
+    style:style7,
 }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+    return '<p>This evergreen has a narrow, spire shape with shiny dark green needles. It is adapted to a number of sites from swamps to rocky mountainsides, but it grows best in cold climates with acidic, moist soil. This tree is a popular choice for Christmas trees. It grows in the USDA Hardiness Zones 3-5. It grows from 45-75 feet high and 20-25 feet wide at maturity. It has a slow growth rate.</p>' + '<a href = "https://en.wikipedia.org/wiki/Abies_balsamea">Wikipedia</a>' + '<br>' + '<img src="images/balsamfir.png" width="200" height="auto" align="center" >';     
 });
 
 var range8 = L.geoJson(poputrem, {
-    style:style,
-    onEachFeature: onEachFeature
+    style:style8,
 }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+    return '<p>Aspen is known as the largest living organism, as it reproduces by sending sprouts from their roots, meaning all the trees in a clone are connected. It is the state tree of Utah. This shade tree thrives in USDA Hardiness Zones 1-7 and grows to a height of 40-50 feet. It spreads 20-30 feet when mature. It is a fast grower and it prefers abundant moisture.</p>' + '<a href = "https://en.wikipedia.org/wiki/Populus_tremuloides">Wikipedia</a>' + '<br>' + '<img src="images/quakingaspen.png" width="300" height="auto" align="center" >';       
 });
 
 var range9 = L.geoJson(liqustyr, {
-    style:style,
-    onEachFeature: onEachFeature
+    style:style9,
 }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+    return '<p>Native to the southeastern United States, this tree has glossy green star-shaped leaves that turn yellow, purple and red in the fall and stay on the tree late into the season. Sweetgum grows in USDA Hardiness Zones 5-9 and has a height of 60-75 feet and 40-50 feet spread when mature. It can grow in various soils but does not tolerate pollution well.</p>' + '<a href = "https://en.wikipedia.org/wiki/Liquidambar_styraciflua">Wikipedia</a>' + '<br>' + '<img src="images/americansweetgum.png" width="300" height="auto" align="center" >';      
 });
 
 var range10 = L.geoJson(queralba, {
-    style:style,
-    onEachFeature: onEachFeature
+    style:style10,
 }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+    return '<p>The white oak grows in Hardiness Zones 3-9 and prefers slightly acidic to neutral well-draining soils. It has a mature height of 50-80 feet and a spread of 50-80.</p>' + '<a href = "https://en.wikipedia.org/wiki/Quercus_subg._Quercus#Section_Quercus">Wikipedia</a>' + '<br>' + '<img src="images/whiteoak.png" width="300" height="auto" align="center" >';       
 }).addTo(mymap);
+
+//Fire point creation
+var api_url = 'https://firms.modaps.eosdis.nasa.gov/api/area/csv/872e426ef9f441d2fa52c1ad4c89ff80/LANDSAT_NRT/world/2'; //Api link to csv
+
+
+
+//Cluster the Fire points
+
+//Scale
+L.control.scale({position: 'bottomright', maxWidth: '150', metric: 'True'}).addTo(mymap); 
+
+//Home Button
+L.easyButton(('<img src="images/globe.png", height=80%>'), function(btn, map){
+    map.setView([39.5, -98], 5);
+}, {position: 'topleft'}).addTo(mymap);
 
 
 //Layer control
@@ -176,8 +341,16 @@ var overlays = {
 
 };
 
+var basemaps = {
+    "Streets": streets,
+    "Satellite": satellite,
+    "Grayscale": grayscale
+};
+
 var layerControl = L.control.layers({}, overlays, {collapsed: false}).addTo(mymap);
 
+     var firetoggle = {"Wildfires": json};
+ var fireLayerControl = L.control.layers({}, firetoggle, {collapsed: false}).addTo(mymap);
 
-
+var baselayerControl = L.control.layers(basemaps, {}, {collapsed: false}).addTo(mymap);
 
