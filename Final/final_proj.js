@@ -331,16 +331,16 @@ L.easyButton(('<img src="images/globe.png", height=80%>'), function(btn, map){
 //Layer control
 
 var overlays = {
-    "Silver Maple/Acer Saccharinum": range1,
-    "Red Maple/Acer Rubrum": range2,
-    "Flowering Dogwood/Cornus Florida": range3,
-    "Lodgepole Pine/Pinus Contorta": range4,
-    "Douglas-fir/Pseudotsuga Menziesii": range5,
-    "Loblolly Pine/Pinus Taeda": range6,
-    "Balsam Fir/Abies Balsamea": range7,
-    "Quaking Aspen/Populus Tremuloides": range8,
-    "American Sweetgum/Liquidambar Styraciflua": range9,
-    "White Oak/Quercus Alba": range10,
+    "Silver Maple /Acer Saccharinum": range1,
+    "Red Maple /Acer Rubrum": range2,
+    "Flowering Dogwood /Cornus Florida": range3,
+    "Lodgepole Pine /Pinus Contorta": range4,
+    "Douglas-Fir /Pseudotsuga Menziesii": range5,
+    "Loblolly Pine/ Pinus Taeda": range6,
+    "Balsam Fir /Abies Balsamea": range7,
+    "Quaking Aspen /Populus Tremuloides": range8,
+    "American Sweetgum /Liquidambar Styraciflua": range9,
+    "White Oak /Quercus Alba": range10,
 
 };
 
@@ -352,7 +352,7 @@ var basemaps = {
 
 var layerControl = L.control.layers({}, overlays, {collapsed: false}).addTo(mymap);
 
-var firetoggle = {"Wildfire Points": json, "Wildfire Clustesr": Cluster};
+var firetoggle = {"Wildfire Points": json, "Wildfire Clustesr": Cluster, "Off": };
  var fireLayerControl = L.control.layers(firetoggle, {}, {collapsed: false}).addTo(mymap);
 
 var baselayerControl = L.control.layers(basemaps, {}, {collapsed: false}).addTo(mymap);
